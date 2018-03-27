@@ -1,0 +1,104 @@
+<template>
+    <b-navbar toggleable="lg" type="dark" variant="">
+        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+        <b-navbar-brand href="#">BriteCore</b-navbar-brand>
+        <b-collapse is-nav id="nav_collapse">
+            <b-navbar-nav>
+                <router-link v-for="navLink in navLinks"
+                    v-bind="navLink"
+                    :key="navLink.id"
+                    :to="navLink.url"
+                    class="nav-link">
+                    <span class="nav-link__icon" v-bind:class="navLink.icon"></span>
+                    {{ navLink.label }}
+                </router-link>
+            </b-navbar-nav>
+        </b-collapse>
+    </b-navbar>
+</template>
+
+<script>
+    import { Navbar } from 'bootstrap-vue/es/components';
+
+    const navLinks = [
+        {
+            id: 1,
+            label: 'Policies',
+            url: '/policies',
+            icon: 'fa fa-umbrella'
+        },
+        {
+            id: 2,
+            label: 'Claims',
+            url: '/claims',
+            icon: 'fa fa-bolt'
+        },
+        {
+            id: 3,
+            label: 'Contacts',
+            url: '/contacts',
+            icon: 'fa fa-user'
+        },
+        {
+            id: 4,
+            label: 'Data',
+            url: '/data',
+            icon: 'fa fa-chart-bar'
+        },
+        {
+            id: 5,
+            label: 'Lines',
+            url: '/lines',
+            icon: 'fa fa-book'
+        },
+        {
+            id: 6,
+            label: 'All Modules',
+            url: '/all-modules',
+            icon: 'fa fa-crosshairs'
+        }
+    ]
+
+    export default {
+        name: 'mainNav',
+        data () {
+            return {
+                navLinks,
+                activeNavItem: undefined,
+            }
+        }
+    }
+</script>
+
+<style lang="scss">
+    @import "~scss/_vars.scss";
+
+    .navbar {
+        background-color: $color-teal;
+
+        .navbar-nav {
+            .nav-link {
+                border-radius: 5px;
+                color: $color-white;
+                margin: 0 15px;
+                padding: 5px 10px;
+
+                &:hover {
+                    background-color: $color-teal-lighter;
+                    color: $color-white;
+                }
+
+                &.router-link-active {
+                    background-color: $color-teal-lightest;
+                    color: $color-white;
+                }
+            }
+        }
+    }
+
+    .nav-link {
+        &__icon {
+            margin-right: 5px;
+        }
+    }
+</style>

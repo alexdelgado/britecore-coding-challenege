@@ -1,25 +1,23 @@
 <template>
-    <b-navbar toggleable="lg" type="dark" variant="">
-        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-        <b-navbar-brand href="#">BriteCore</b-navbar-brand>
-        <b-collapse is-nav id="nav_collapse">
-            <b-navbar-nav>
-                <router-link v-for="navLink in navLinks"
-                    v-bind="navLink"
-                    :key="navLink.id"
-                    :to="navLink.url"
-                    class="nav-link">
-                    <span class="nav-link__icon" v-bind:class="navLink.icon"></span>
-                    {{ navLink.label }}
-                </router-link>
-            </b-navbar-nav>
-        </b-collapse>
-    </b-navbar>
+    <nav class="navbar navbar-expand-lg">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav_collapse" aria-controls="nav_collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a href="/#/" class="navbar-brand" >BriteCore</a>
+        <div id="nav_collapse" class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" v-for="navLink in navLinks" v-bind="navLink" :key="navLink.id">
+                    <router-link class="nav-link" :to="navLink.url">
+                        <span class="nav-link__icon" v-bind:class="navLink.icon"></span>
+                        {{ navLink.label }}
+                    </router-link>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </template>
 
 <script>
-    import { Navbar } from 'bootstrap-vue/es/components';
-
     const navLinks = [
         {
             id: 1,
@@ -75,30 +73,36 @@
 
     .navbar {
         background-color: $color-teal;
+    }
 
-        .navbar-nav {
-            .nav-link {
-                border-radius: 5px;
-                color: $color-white;
-                margin: 0 15px;
-                padding: 5px 10px;
+    .navbar-brand {
+        color: $color-white;
 
-                &:hover {
-                    background-color: $color-teal-lighter;
-                    color: $color-white;
-                }
-
-                &.router-link-active {
-                    background-color: $color-teal-lightest;
-                    color: $color-white;
-                }
-            }
+        &:hover {
+            color: $color-white;
         }
     }
 
-    .nav-link {
-        &__icon {
-            margin-right: 5px;
+    .navbar-nav {
+        .nav-link {
+            border-radius: 5px;
+            color: $color-white;
+            margin: 0 15px;
+            padding: 5px 10px;
+
+            &:hover {
+                background-color: $color-teal-lighter;
+                color: $color-white;
+            }
+
+            &.router-link-active {
+                background-color: $color-teal-lightest;
+                color: $color-white;
+            }
+
+            &__icon {
+                margin-right: 5px;
+            }
         }
     }
 </style>

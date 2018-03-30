@@ -1,84 +1,65 @@
 <template>
-    <b-row>
-        <b-col sm="12">
+    <div class="row">
+        <div class="col-sm-12">
             <h2 class="field-types__heading">Field Details</h2>
-        </b-col>
-        <b-col sm="12" lg="8">
-            <b-row>
-                <b-col sm="12" lg="6">
-                    <b-form-group id="display-label-group"
-                        description="For display purposes, spaces allowed"
-                        label="Display Label"
-                        label-for="display-label">
-                        <input type="text" name="displayLabel" id="display-label" class="form-control"
-                            @keyup="generateReferenceName($event.target.value)"
-                            v-validate="'required'"
-                            :class="{'is-invalid': errors.has('displayLabel')}">
-                        </b-form-input>
-                    </b-form-group>
-                </b-col>
-                <b-col sm="12" lg="6">
-                    <b-form-group id="reference-name-group"
-                        description="Used to reference in calculations, no spaces allowed"
-                        label="Reference Name"
-                        label-for="reference-name">
-                        <b-form-input name="referenceName" id="reference-name" class="form-control"
-                            v-model="referenceName"
-                            v-validate="'required|alpha_dash'"
-                            :class="{'is-invalid': errors.has('referenceName')}"></b-form-input>
-                    </b-form-group>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col sm="12" lg="6">
-                    <b-form-group id="default-value-group"
-                        description=""
-                        label="Default Value"
-                        label-for="default-value">
-                        <b-form-input name="defaultValue" id="default-value"></b-form-input>
-                    </b-form-group>
-                </b-col>
-                <b-col sm="12" lg="6">&nbsp;</b-col>
-            </b-row>
-            <b-row>
-                <b-col sm="12" lg="6">
-                    <b-form-group id="custom-validation-group"
-                        description="Any regex pattern can be used for custom input validation"
-                        label="Custom Validation"
-                        label-for="custom-validation">
-                        <b-form-input name="customValidation" id="custom-validation"
-                            v-validate="'regex_exp'"
-                            :class="{'is-invalid': errors.has('customValidation')}">
-                        </b-form-input>
-                    </b-form-group>
-                </b-col>
-                <b-col sm="12" lg="6">&nbsp;</b-col>
-            </b-row>
-            <b-row class="field-types__tags field-type-tags">
-                <b-col sm="12">
+        </div>
+        <div class="col-sm-12 col-lg-8">
+            <div class="row">
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="display-label">Display Label</label>
+                        <input type="text" name="displayLabel" id="display-label" class="form-control" @keyup="generateReferenceName($event.target.value)" v-validate="'required'" :class="{'is-invalid': errors.has('displayLabel')}">
+                        <span class="form-text text-muted">For display purposes, spaces allowed.</span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="reference-name">Reference Name</label>
+                        <input type="text" name="referenceName" id="reference-name" class="form-control" v-model="referenceName" v-validate="'required|alpha_dash'" :class="{'is-invalid': errors.has('referenceName')}">
+                        <span class="form-text text-muted">Used to reference in calculations, no spaces allowed.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="default-value">Default Value</label>
+                        <input type="text" name="defaultValue" id="default-value" class="form-control">
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                        <label for="custom-validation">Custom Validation</label>
+                        <input type="text" name="customValidation" id="custom-validation" class="form-control" v-validate="'regex_exp'" :class="{'is-invalid': errors.has('customValidation')}">
+                        <span class="form-text text-muted">Any regex pattern can be used for custom input validation.</span>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-6">&nbsp;</div>
+            </div>
+            <div class="row field-types__tags field-type-tags">
+                <div class="col-sm-12">
                     <h3 class="field-type-tags__heading">Tags</h3>
-                </b-col>
-                <b-col sm="12" lg="6">
-                    <b-form-group id="field-types-tag-group"
-                        description=""
-                        label="Tag Group"
-                        label-for="field-types-tag">
-                    </b-form-group>
-                </b-col>
-                <b-col sm="12" lg="6">
-                    <b-form-group id="field-types-tags-group"
-                        description="Select a tag group to see individual tags"
-                        label="Tags"
-                        label-for="field-types-tags">
-                    </b-form-group>
-                </b-col>
-            </b-row>
-        </b-col>
-        <b-col sm="12" lg="4" class="field-groups">
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="field-types-tag">Tag Group</label>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label for="field-types-tags">Tags</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-lg-4 field-groups">
             <h3 class="field-groups__heading">Field Groups</h3>
             <p class="field-groups__byline">Choose a group for this input</p>
-        </b-col>
-    </b-row>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -101,8 +82,6 @@
         }
     });
 
-
-
     export default {
         name: 'textField',
         inject: ['$validator'],
@@ -115,7 +94,7 @@
         },
         methods: {
             generateReferenceName(value) {
-                this.referenceName = value.replace(/\s/g, '-');
+                this.referenceName = value.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-_]+/g, '');
             }
         }
     }

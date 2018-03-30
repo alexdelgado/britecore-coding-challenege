@@ -1,46 +1,35 @@
 <template>
-    <b-container fluid>
+    <div class="container-fluid">
         <h1 class="page__title">Commercial Property - Add Field</h1>
-        <b-form action="#submit" id="commercial-property" @submit.prevent="validateForm">
-            <b-row class="field-types">
-                <b-col sm="12" md="4" class="field-types__types">
+        <form action="#submit" @submit.prevent="validateForm">
+            <div class="row field-types">
+                <div class="col-sm-12 col-md-4 field-types__types">
                     <h2 class="field-types__heading">Field Types</h2>
-                    <b-form-group id="filter-types-group"
-                        class="field-types-filter"
-                        label="Filter Types"
-                        label-for="filter-types">
-                        <input type="text"
-                            class="form-control field-types-filter__input"
-                            v-model="search"
-                            @focus="showClearFilter = true">
+                    <div class="form-group field-types-filter">
+                        <label for="filter-types" class="col-form-label">Filter Types</label>
+                        <input type="text" class="form-control field-types-filter__input" v-model="search" @focus="showClearFilter = true">
                         <div class="field-types-filter__clear" v-if="showClearFilter" @click="clearSearch()">
                             <span class="fas fa-times"></span>
                         </div>
-                    </b-form-group>
-                    <fieldType
-                        v-for="field in filteredFieldTypes"
-                        v-bind="field"
-                        :key="field.id"
-                        :active="field.id == activeFieldType || $route.path == field.url"
-                        @newActiveFieldType="activeFieldType = $event">
-                    </fieldType>
-                </b-col>
-                <b-col sm="12" md="8" class="field-types__details">
+                    </div>
+                    <fieldType v-for="field in filteredFieldTypes" v-bind="field" :key="field.id" :active="field.id == activeFieldType || $route.path == field.url" @newActiveFieldType="activeFieldType = $event"></fieldType>
+                </div>
+                <div class="col-sm-12 col-md-8 field-types__details">
                     <router-view></router-view>
-                </b-col>
-            </b-row>
-            <b-row class="field-actions">
-                <b-col class="field-actions__left" cols="12" sm="4">
-                    <b-button type="submit" class="field-actions__save-btn" variant="primary">Save Chanages</b-button>
-                </b-col>
-                <b-col class="field-actions__right" cols="12" sm="8">
-                    <b-button type="button" class="field-actions__cancel-btn" variant="default">Cancel Changes</b-button>
+                </div>
+            </div>
+            <div class="row field-actions">
+                <div class="col-12 col-sm-4 field-actions__left">
+                    <button type="submit" class="btn field-actions__save-btn">Save Chanages</button>
+                </div>
+                <div class="col-12 col-sm-8 field-actions__right">
+                    <button type="button" class="btn btn-light field-actions__cancel-btn">Cancel Changes</button>
                     <div class="clearfix"></div>
-                    <b-button type="button" class="field-actions__delete-btn" variant="danger">Delete Input</b-button>
-                </b-col>
-            </b-row>
-        </b-form>
-    </b-container>
+                    <button type="button" class="btn btn-danger field-actions__delete-btn">Delete Input</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -175,6 +164,7 @@
 
             .text-muted {
                 color: $color-teal !important;
+                font-size: 12px;
             }
         }
     }
@@ -201,6 +191,7 @@
         &__save-btn {
             background-color: $color-teal-darker;
             border-color: $color-teal-darkest;
+            color: $color-white;
 
             &:hover {
                 background-color: $color-teal-lighter;

@@ -10,9 +10,11 @@
                         description="For display purposes, spaces allowed"
                         label="Display Label"
                         label-for="display-label">
-                        <input type="text" id="display-label"
-                            class="form-control"
-                            @keyup="generateReferenceName($event.target.value)">
+                        <input type="text" name="displayLabel" id="display-label" class="form-control"
+                            @keyup="generateReferenceName($event.target.value)"
+                            v-validate="'required'"
+                            :class="{'is-invalid': errors.has('displayLabel')}">
+                        </b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col sm="12" lg="6">
@@ -20,7 +22,10 @@
                         description="Used to reference in calculations, no spaces allowed"
                         label="Reference Name"
                         label-for="reference-name">
-                        <b-form-input id="reference-name" v-model="referenceName"></b-form-input>
+                        <b-form-input name="referenceName" id="reference-name" class="form-control"
+                            v-model="referenceName"
+                            v-validate="'required|alpha_dash'"
+                            :class="{'is-invalid': errors.has('referenceName')}"></b-form-input>
                     </b-form-group>
                 </b-col>
             </b-row>
@@ -30,7 +35,7 @@
                         description=""
                         label="Default Value"
                         label-for="default-value">
-                        <b-form-input id="default-value"></b-form-input>
+                        <b-form-input name="defaultValue" id="default-value"></b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col sm="12" lg="6">&nbsp;</b-col>
@@ -41,7 +46,10 @@
                         description="Any regex pattern can be used for custom input validation"
                         label="Custom Validation"
                         label-for="custom-validation">
-                        <b-form-input id="custom-validation"></b-form-input>
+                        <b-form-input name="customValidation" id="custom-validation"
+                            v-validate="'regex_exp'"
+                            :class="{'is-invalid': errors.has('customValidation')}">
+                        </b-form-input>
                     </b-form-group>
                 </b-col>
                 <b-col sm="12" lg="6">&nbsp;</b-col>
@@ -74,8 +82,30 @@
 </template>
 
 <script>
+    import { Validator } from 'vee-validate';
+
+    Validator.extend('regex_exp', {
+        getMessage(field, args) {
+            return 'Please enter a valid regular expression';
+        },
+        validate(value, args) {
+            var isValid = true;
+
+            try {
+                new RegExp(value);
+            } catch(e) {
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    });
+
+
+
     export default {
         name: 'textField',
+        inject: ['$validator'],
         data () {
             return {
                 name: '',

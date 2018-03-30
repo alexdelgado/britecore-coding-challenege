@@ -1,7 +1,7 @@
 <template>
     <b-container fluid>
         <h1 class="page__title">Commercial Property - Add Field</h1>
-        <b-form id="commercial-property">
+        <b-form action="#submit" id="commercial-property" @submit.prevent="validateForm">
             <b-row class="field-types">
                 <b-col sm="12" md="4" class="field-types__types">
                     <h2 class="field-types__heading">Field Types</h2>
@@ -46,7 +46,7 @@
 <script>
     import FieldType from '../components/FieldType.vue';
 
-    const fields = [
+    const fieldTypes = [
         {
             id: 1,
             icon: 'fas fa-heading',
@@ -83,9 +83,10 @@
 
     export default {
         name: 'lines',
+        inject: ['$validator'],
         data () {
             return {
-                fields,
+                fieldTypes,
                 search: '',
                 showClearFilter: false,
                 activeFieldType: undefined,
@@ -97,7 +98,7 @@
         computed: {
             filteredFieldTypes: function() {
                 var self = this;
-                return this.fields.filter(function(field) {
+                return this.fieldTypes.filter(function(field) {
                     return field.heading.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
                 });
             }
@@ -106,6 +107,11 @@
             clearSearch() {
                 this.search = '';
                 this.showClearFilter = false;
+            },
+            validateForm() {
+                this.$validator.validateAll().then((result) => {
+                    console.log('validateForm', result);
+                });
             }
         }
     }

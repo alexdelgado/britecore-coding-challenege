@@ -1,5 +1,5 @@
 <template>
-    <div class="field-type" :class="{'field-type--active': active}" @click.stop="setActive(id, url)">
+    <div class="field-type" :class="{'field-type--active': active}" @click.stop="setActive(url)">
         <h3 class="field-type__heading" slot="fieldHeading"><span class="field-type__icon" v-bind:class="icon"></span> {{ heading }}</h3>
         <div class="field-type__property">
             <div class="field-type__property-label">Definition</div>
@@ -18,6 +18,7 @@
         props: [
             'active',
             'id',
+            'name',
             'icon',
             'heading',
             'definition',
@@ -25,9 +26,19 @@
             'url'
         ],
         methods: {
-            setActive(id, url) {
-                this.$emit('newActiveFieldType', id);
-                this.$router.push(url)
+            setActive(url) {
+                var self = {
+                    id: this.id,
+                    name: this.name,
+                    icon: this.icon,
+                    heading: this.heading,
+                    definition: this.definition,
+                    defaultDisplay: this.defaultDisplay,
+                    url: this.url
+                };
+
+                this.$emit('newActiveFieldType', self);
+                this.$router.push(url);
             }
         }
     }

@@ -1,0 +1,31 @@
+.btn-cyan {
+    background-color: $color-cyan-ligher;
+    border: 1px solid $color-teal;
+    color: $color-teal;
+
+    &:hover {
+        background-color: $color-teal-lightest;
+        color: $color-white;
+    }
+}
+
+.btn-teal {
+    background-color: $color-teal-darker;
+    border-color: $color-teal-darkest;
+    color: $color-white;
+
+    &:hover {
+        background-color: $color-teal-lighter;
+        border-color: $color-teal;
+    }
+}
+
+.btn-white {
+    border: 1px solid $color-teal-lightest;
+    background-color: $color-white;
+
+    &:hover {
+        background-color: $color-teal-lightest;
+        color: $color-white;
+    }
+}

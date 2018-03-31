@@ -12,7 +12,7 @@
                             <span class="fas fa-times"></span>
                         </div>
                     </div>
-                    <fieldType v-for="field in filteredFieldTypes" v-bind="field" :key="field.id" :active="field.id == activeFieldType || $route.path == field.url" @newActiveFieldType="activeFieldType = $event"></fieldType>
+                    <fieldType v-for="field in filteredFieldTypes" v-bind="field" :key="field.id" :active="isActiveFieldType(field)" @newActiveFieldType="setActiveFieldType($event)" @click="setActiveFieldType(field)"></fieldType>
                 </div>
                 <div class="col-sm-12 col-md-8 field-types__details">
                     <router-view></router-view>
@@ -20,12 +20,12 @@
             </div>
             <div class="row field-actions">
                 <div class="col-12 col-sm-4 field-actions__left">
-                    <button type="submit" class="btn field-actions__save-btn">Save Chanages</button>
+                    <button type="submit" class="btn btn-teal field-actions__save-btn">Save Chanages</button>
                 </div>
                 <div class="col-12 col-sm-8 field-actions__right">
-                    <button type="button" class="btn btn-light field-actions__cancel-btn">Cancel Changes</button>
+                    <button type="button" class="btn btn-white field-actions__cancel-btn" @click="confirmCancel">Cancel Changes</button>
                     <div class="clearfix"></div>
-                    <button type="button" class="btn btn-danger field-actions__delete-btn">Delete Input</button>
+                    <button type="button" class="btn btn-danger field-actions__delete-btn" @click="confirmDelete">Delete Input</button>
                 </div>
             </div>
         </form>
@@ -38,6 +38,7 @@
     const fieldTypes = [
         {
             id: 1,
+            name: 'text',
             icon: 'fas fa-heading',
             heading: 'Text',
             definition: 'String of text',
@@ -46,6 +47,7 @@
         },
         {
             id: 2,
+            name: 'number',
             icon: 'fas fa-hashtag',
             heading: 'Number',
             definition: 'Lorem ipsum dolor',
@@ -54,6 +56,7 @@
         },
         {
             id: 3,
+            name: 'date',
             icon: 'far fa-calendar-alt',
             heading: 'Date',
             definition: 'Standard ISO format date',
@@ -62,6 +65,7 @@
         },
         {
             id: 4,
+            name: 'vin',
             icon: 'fas fa-car',
             heading: 'Vin',
             definition: 'An integer representing a number',
@@ -73,20 +77,13 @@
     export default {
         name: 'lines',
         inject: ['$validator'],
-        data () {
-            return {
-                fieldTypes,
-                search: '',
-                showClearFilter: false,
-                activeFieldType: undefined,
-            }
-        },
         components: {
             fieldType: FieldType,
         },
         computed: {
             filteredFieldTypes: function() {
                 var self = this;
+
                 return this.fieldTypes.filter(function(field) {
                     return field.heading.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
                 });
@@ -97,18 +94,52 @@
                 this.search = '';
                 this.showClearFilter = false;
             },
+            isActiveFieldType(fieldType) {
+
+                if(undefined === this.activeFieldType) {
+                    return false;
+                }
+
+                return this.$route.path == fieldType.url;
+            },
+            setActiveFieldType(fieldType) {
+                this.activeFieldType = fieldType;
+            },
             validateForm() {
                 this.$validator.validateAll().then((result) => {
                     console.log('validateForm', result);
                 });
+            },
+            confirmCancel() {
+                var dialog = confirm("Are you sure you want to leave, your changes won't be saved.");
+
+                if(dialog) {
+                    window.location.reload();
+                }
+            },
+            confirmDelete() {
+                var dialog = confirm("Are you sure you want to delete this item?");
+
+                if(dialog) {
+                    window.location.reload();
+                }
             }
-        }
+        },
+        data() {
+            return {
+                fieldTypes,
+                search: '',
+                showClearFilter: false,
+                activeFieldType: {},
+            }
+        },
     }
 </script>
 
 <style lang="scss">
     @import "~scss/_vars.scss";
     @import "~scss/_breakpoints.scss";
+    @import "~scss/_buttons.scss";
 
     body {
         background-color: $color-cyan-lightest;
@@ -128,7 +159,7 @@
             cursor: pointer;
             position: absolute;
             right: 15px;
-            top: 38px;
+            top: 45px;
         }
     }
 
@@ -188,28 +219,9 @@
             }
         }
 
-        &__save-btn {
-            background-color: $color-teal-darker;
-            border-color: $color-teal-darkest;
-            color: $color-white;
-
-            &:hover {
-                background-color: $color-teal-lighter;
-                border-color: $color-teal;
-            }
-        }
-
         &__cancel-btn {
-            border: 1px solid $color-teal-lightest;
-            background-color: $color-white;
-
             @include media-breakpoint-up(sm) {
                 margin-right: 30px;
-            }
-
-            &:hover {
-                background-color: $color-teal-darker;
-                color: $color-white;
             }
         }
 

@@ -1,17 +1,16 @@
 <template>
-    <b-row>
-        <b-col sm="12">
+    <div class="row">
+        <div class="col-12">
             <h2 class="field-types__heading">Field Details</h2>
-        </b-col>
-    </b-row>
+        </div>
+    </div>
 </template>
 
 <script>
     export default {
-        name: 'dateField',
+        name: 'dateField'
     }
 </script>
 
 <style lang="scss">
-    @import "~scss/_vars.scss";
 </style>

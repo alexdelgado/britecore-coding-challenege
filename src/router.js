@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Lines from '../components/Lines.vue';
-import DateField from '../components/DateField.vue';
-import NumberField from '../components/NumberField.vue';
-import TextField from '../components/TextField.vue';
-import VinField from '../components/VinField.vue';
+import Lines from './components/Lines.vue';
+import DateField from './components/DateField.vue';
+import NumberField from './components/NumberField.vue';
+import TextField from './components/TextField.vue';
+import VinField from './components/VinField.vue';
 
 Vue.use(Router)
 

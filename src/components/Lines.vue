@@ -84,6 +84,7 @@
             filteredFieldTypes: function() {
                 var self = this;
 
+                // filter available field types based on search input
                 return this.fieldTypes.filter(function(field) {
                     return field.heading.toLowerCase().indexOf(self.search.toLowerCase()) >= 0;
                 });
@@ -100,7 +101,7 @@
                     return false;
                 }
 
-                return this.$route.path == fieldType.url;
+                return (this.$route.path == fieldType.url);
             },
             setActiveFieldType(fieldType) {
                 this.activeFieldType = fieldType;

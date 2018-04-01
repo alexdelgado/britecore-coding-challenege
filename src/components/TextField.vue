@@ -66,9 +66,9 @@
                 <p class="field-group__count">{{ group.inputs.length }} other inputs</p>
             </button>
             <div class="field-groups__footer">
-                <b-btn v-b-modal.addgroup variant="default" class="btn btn-white">Add A New Group</b-btn>
-                <!-- Modal Component -->
-                <b-modal id="addgroup" title="Create a New Field Group" ref="addgroup" @ok="catchOk">
+                <button type="button" class="btn btn-white" data-toggle="modal" data-target="#add-group">Add A New Group</button>
+                <!-- <b-btn v-b-modal.addgroup variant="default" class="btn btn-white">Add A New Group</b-btn> -->
+                <!-- <b-modal id="addgroup" title="Create a New Field Group" ref="addgroup" @ok="catchOk">
                     <form @submit.stop.prevent="handleSubmit">
                         <div class="form-group">
                             <label for="form-group-name">Group Name</label>
@@ -76,7 +76,32 @@
                             <span class="invalid-feedback" v-if="formGroupNameExists">A group with this name already exists</span>
                         </div>
                     </form>
-                </b-modal>
+                </b-modal> -->
+            </div>
+        </div>
+        <div id="add-group" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title">Create a New Field Group</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form @submit.stop.prevent="handleSubmit">
+                            <div class="form-group">
+                                <label for="form-group-name">Group Name</label>
+                                <input type="text" name="formGroupName" id="form-group-name" class="form-control" v-model="formGroupName" @keyup="validateGroupName" :class="{'is-invalid': formGroupNameExists}">
+                                <span class="invalid-feedback" v-if="formGroupNameExists">A group with this name already exists</span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-teal" @click.prevent="catchOk($event)">Save changes</button>
+                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -85,6 +110,12 @@
 <script>
     import { Validator } from 'vee-validate';
 
+    window.jQuery = window.$ = require('jquery');
+    require('bootstrap');
+
+    /**
+     * Create Custom Validation Rule for regex field
+     */
     Validator.extend('regex_exp', {
         getMessage(field, args) {
             return 'Please enter a valid regular expression';
@@ -191,7 +222,7 @@
                 }
             ]
         }
-    ]
+    ];
 
     export default {
         name: 'textField',
@@ -210,10 +241,14 @@
             }
         },
         methods: {
+            sanitizeReferenceName(value) {
+                return value.toLowerCase().replace(/\s/g, '-').replace(/[^a-zA-Z0-9-_]+/g, '');
+            },
             generateReferenceName(value) {
-                this.referenceName = value.replace(/\s/g, '-').replace(/[^a-zA-Z0-9-_]+/g, '');
+                this.referenceName = this.sanitizeReferenceName(value);
             },
             generateTags(tag) {
+
                 if(undefined != this.tags.groupId && tag.id == this.tags.groupId) {
                     this.tags = {}
                 } else {
@@ -259,7 +294,8 @@
 
                 if(this.formGroupNameExists && this.formGroupName.length > 0) {
 
-                    var name = this.formGroupName.replace(/\s/g, '-').replace(/\W+/, '');
+                    // sanitize group name
+                    var name = this.sanitizeReferenceName(this.formGroupName);
 
                     // check if group already exists in field groups array
                     var groupIndex = this.fieldGroups.findIndex(function(el) {
@@ -282,7 +318,7 @@
 
                 var group = {
                     id: this.fieldGroups.length + 1,
-                    name: this.formGroupName.replace(/\s/g, '-').replace(/\W+/, ''),
+                    name: this.sanitizeReferenceName(this.formGroupName),
                     label: this.formGroupName,
                     inputs: [{
                         id: this.$parent.activeFieldType.id,
@@ -296,10 +332,13 @@
                 });
 
                 if(groupIndex < 0) {
+
                     this.formGroupNameExists = false;
                     this.fieldGroups.push(group);
                     this.formGroupName = '';
-                    this.$refs.addgroup.hide();
+
+                    $('#add-group').modal('hide');
+
                 } else {
                     this.formGroupNameExists = true;
                 }

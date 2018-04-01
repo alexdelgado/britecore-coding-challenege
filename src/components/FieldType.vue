@@ -1,6 +1,8 @@
 <template>
     <div class="field-type" :class="{'field-type--active': active}" @click.stop="setActive(url)">
-        <h3 class="field-type__heading" slot="fieldHeading"><span class="field-type__icon" v-bind:class="icon"></span> {{ heading }}</h3>
+        <h3 class="field-type__heading" slot="fieldHeading">
+            <span class="field-type__icon" v-bind:class="icon"></span> {{ heading }}
+        </h3>
         <div class="field-type__property">
             <div class="field-type__property-label">Definition</div>
             <div class="field-type__property-value">{{ definition }}</div>
@@ -26,8 +28,8 @@
             'url'
         ],
         methods: {
-            setActive(url) {
-                var self = {
+            getCurrentFieldType() {
+                return {
                     id: this.id,
                     name: this.name,
                     icon: this.icon,
@@ -36,8 +38,16 @@
                     defaultDisplay: this.defaultDisplay,
                     url: this.url
                 };
+            },
+            setActive(url) {
 
+                // generate a new FieldType instance
+                var self = this.getCurrentFieldType;
+
+                // let parent know active field type has changed
                 this.$emit('newActiveFieldType', self);
+
+                // go to specified route
                 this.$router.push(url);
             }
         }

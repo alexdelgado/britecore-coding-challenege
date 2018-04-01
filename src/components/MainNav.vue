@@ -62,7 +62,7 @@
         data () {
             return {
                 navLinks,
-                activeNavItem: undefined,
+                activeNavItem: undefined
             }
         }
     }

@@ -10,15 +10,9 @@
 
     export default {
         name: 'app',
-        data () {
-            return {
-                pageTitle: 'Commercial Property - Add Field',
-                name: ''
-            }
-        },
         components: {
-            navbar: MainNav,
-        },
+            navbar: MainNav
+        }
     }
 </script>
 
